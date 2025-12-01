@@ -1,28 +1,9 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class ButtomPlay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class ButtonPlay : MonoBehaviour
 {
-    public float scaleFactor = 1.1f;
-    private Vector3 originalScale;
-
-    void Start()
-    {
-        originalScale = transform.localScale;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        transform.localScale = originalScale * scaleFactor;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        transform.localScale = originalScale;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
+    public void LoadScene()
     {
         SceneManager.LoadScene("Escena 1");
     }
