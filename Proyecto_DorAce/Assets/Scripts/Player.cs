@@ -1,16 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player: MonoBehaviour
+public class Player : MonoBehaviour
 {
-    public float speed = 6f;
-    public float jumpForce = 5f;
-    public float gravity = -9.81f;
+    public float speed = 5f;
+    public float gravity = -9.8f;
 
-    private CharacterController controller;
-    private Vector3 velocity;
-    private Vector2 moveInput;
-    private bool jumpPressed;
+    CharacterController controller;
+    Vector3 velocity;
 
     void Awake()
     {
@@ -19,33 +16,23 @@ public class Player: MonoBehaviour
 
     void Update()
     {
-        bool isGrounded = controller.isGrounded;
+        if (Keyboard.current == null) return;
 
-        if (isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        float x = 0;
+        float z = 0;
 
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+        if (Keyboard.current.aKey.isPressed) x = -1;
+        if (Keyboard.current.dKey.isPressed) x = 1;
+        if (Keyboard.current.wKey.isPressed) z = 1;
+        if (Keyboard.current.sKey.isPressed) z = -1;
+
+        Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        if (jumpPressed && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
-            jumpPressed = false;
-        }
+        if (controller.isGrounded && velocity.y < 0)
+            velocity.y = -2f;
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-    }
-
-    // INPUT SYSTEM CALLBACKS
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-    }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-            jumpPressed = true;
     }
 }
