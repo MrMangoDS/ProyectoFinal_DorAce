@@ -1097,7 +1097,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: decc8c1150f32274fa695b4c1481750c, type: 2}
     - target: {fileID: 919132149155446097, guid: f26eb2137de5cd84db35f992fb52b126, type: 3}
       propertyPath: m_Name
-      value: Head-0
+      value: Noble
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: f26eb2137de5cd84db35f992fb52b126, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1838,7 +1838,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2567a9b04120adc40835e91118a221ae, type: 2}
     - target: {fileID: 919132149155446097, guid: f92b5c8d18a67c448a491ed3d177ca52, type: 3}
       propertyPath: m_Name
-      value: HEAD-0-HEAD
+      value: Player - Charlie
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f92b5c8d18a67c448a491ed3d177ca52, type: 3}
       propertyPath: m_TagString
@@ -1919,7 +1919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fee4092005faf14e8cd12d6820d0389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
   gravity: -9.8
 --- !u!143 &2107869395
 CharacterController:
