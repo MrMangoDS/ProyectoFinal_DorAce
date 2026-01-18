@@ -1,38 +1,61 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using UnityEngine;
+
+[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
-    public float speed = 5f;
+    public float speed = 4f;
     public float gravity = -9.8f;
+    public float rotationSpeed = 10f;
 
-    CharacterController controller;
-    Vector3 velocity;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Transform cameraTransform;
 
-    void Awake()
+    private CharacterController characterController;
+    private Vector3 velocity;
+
+    void Start()
     {
-        controller = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        if (Keyboard.current == null) return;
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
 
-        float x = 0;
-        float z = 0;
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
 
-        if (Keyboard.current.aKey.isPressed) x = -1;
-        if (Keyboard.current.dKey.isPressed) x = 1;
-        if (Keyboard.current.wKey.isPressed) z = 1;
-        if (Keyboard.current.sKey.isPressed) z = -1;
+        camForward.y = 0;
+        camRight.y = 0;
 
-        Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * speed * Time.deltaTime);
+        camForward.Normalize();
+        camRight.Normalize();
 
-        if (controller.isGrounded && velocity.y < 0)
+        Vector3 move = camForward * v + camRight * h;
+
+        characterController.Move(move * speed * Time.deltaTime);
+
+        bool isWalking = move.magnitude > 0.1f;
+        animator.SetBool("isWalking", isWalking);
+
+        if (isWalking)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
+        }
+
+        if (characterController.isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        characterController.Move(velocity * Time.deltaTime);
     }
 }
