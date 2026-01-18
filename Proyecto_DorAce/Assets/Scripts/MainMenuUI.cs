@@ -7,7 +7,7 @@ public class MainMenuUI : MonoBehaviour
    
     public void StartNewGame()
     {
-        SceneManager.LoadScene("Escena 1");
+        SceneManager.LoadScene("Casa");
     }
 
     public void LoadSavedGamesMenu()
